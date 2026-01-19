@@ -1,0 +1,22 @@
+{
+  "Group": "Ecotale",
+  "Name": "EcotaleJobs",
+  "Version": "1.0.0",
+  "Description": "Job rewards system for Ecotale - Mining and mob kill rewards",
+  "Authors": [
+    {
+      "Name": "Tera-bytez"
+    }
+  ],
+  "Website": "https://github.com/Tera-bytez/Ecotale",
+  "ServerVersion": "*",
+  "Dependencies": {
+    "Ecotale:Ecotale": "*"
+  },
+  "OptionalDependencies": {
+    "Ecotale:EcotaleCoins": "*"
+  },
+  "DisabledByDefault": false,
+  "Main": "com.ecotalejobs.Main",
+  "IncludesAssetPack": false
+}
