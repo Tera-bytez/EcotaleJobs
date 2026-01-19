@@ -369,6 +369,17 @@ public class MiningRewardSystem extends EntityEventSystem<EntityStore, BreakBloc
      * This is 100% robust as it uses the game's internal categorization.
      */
     private String autoClassifyBlock(String blockId, BlockBreakingDropType breaking) {
+        // ══════════════════════════════════════════════════════════════════════════════
+        // SECURITY FIX (FIRST CHECK): Only reward ORE blocks (natural resources)
+        // This MUST be first to prevent exploits like "Iron_Bars" craft-place-break
+        // Valid: "Rock_Iron_Ore", "Gold_Ore", etc.
+        // Blocked: "Iron_Bars", "Gold_Block", "Rock_Stone", etc.
+        // ══════════════════════════════════════════════════════════════════════════════
+        if (!blockId.contains("Ore")) {
+            JobsLogger.debug("[MINING-SECURITY] Blocked non-ore block: %s", blockId);
+            return "NONE";
+        }
+        
         // 1. Check manual override first
         if (tierOverrides != null && tierOverrides.containsKey(blockId)) {
             return tierOverrides.get(blockId);
@@ -415,16 +426,16 @@ public class MiningRewardSystem extends EntityEventSystem<EntityStore, BreakBloc
             JobsLogger.error("Failed to read tags for block " + blockId + ": " + e.getMessage());
         }
 
-        // 3. Fallback: Name pattern matching (if tags failed)
-        // Only ores with explicit names get rewards, plain rocks return NONE
+        // 3. Fallback: Name pattern matching (if reflection failed)
+        // Note: Security check for "Ore" is already done at method start
         if (blockId.contains("Thorium") || blockId.contains("Onyxium")) return "LEGENDARY";
         if (blockId.contains("Cobalt") || blockId.contains("Diamond") || blockId.contains("Emerald")) return "EPIC";
         if (blockId.contains("Gold") || blockId.contains("Silver")) return "RARE";
         if (blockId.contains("Iron")) return "UNCOMMON";
         if (blockId.contains("Coal") || blockId.contains("Copper")) return "COMMON";
         
-        // Plain rocks (Rock_Stone, Rock_Basalt, Rock_Marble, etc.) get no reward
-        return "NONE";
+        // Unknown ore type - give minimal reward
+        return "COMMON";
     }
 
     private String mapFamilyToTier(String family) {
