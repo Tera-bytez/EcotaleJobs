@@ -1,3 +1,13 @@
+## ⚠️ Archived Project
+
+This repository has been archived and is no longer receiving public updates on github.
+
+**The code remains available under the MIT License** for use, modification, and distribution according to its terms.
+
+Development continues in a private version. If you're interested in commercial licensing or collaboration, feel free to reach out at @michidevcl on discord
+
+Thank you to everyone who used and contributed to this project! 
+
 # EcotaleJobs - Reward System for Hytale
 
 A jobs and rewards plugin for the Ecotale economy stack. Players earn currency from mining ores, killing mobs, and crafting items.
